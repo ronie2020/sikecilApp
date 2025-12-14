@@ -16,18 +16,18 @@
 </head>
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Background Decoration -->
+    <!-- Background Decoration (Green Theme) -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div class="absolute top-0 left-0 w-full h-full bg-slate-50"></div>
-        <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-200/30 blur-3xl animate-pulse"></div>
-        <div class="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full bg-blue-200/30 blur-3xl animate-pulse" style="animation-delay: 1s"></div>
+        <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-emerald-200/30 blur-3xl animate-pulse"></div>
+        <div class="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full bg-teal-200/30 blur-3xl animate-pulse" style="animation-delay: 1s"></div>
     </div>
 
     <!-- Main Card -->
     <div class="w-full max-w-5xl bg-white rounded-3xl shadow-2xl shadow-slate-200 overflow-hidden flex flex-col md:flex-row relative z-10 border border-slate-100">
         
-        <!-- Left Side: Branding (Gradient) -->
-        <div class="w-full md:w-5/12 bg-gradient-to-br from-indigo-600 to-blue-700 p-10 text-white flex flex-col justify-between relative overflow-hidden">
+        <!-- Left Side: Branding (Green Gradient) -->
+        <div class="w-full md:w-5/12 bg-gradient-to-br from-emerald-600 to-teal-700 p-10 text-white flex flex-col justify-between relative overflow-hidden">
             <!-- Abstract Shapes -->
             <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white/10 blur-2xl"></div>
             <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-black/10 blur-2xl"></div>
@@ -41,32 +41,32 @@
                 </div>
                 
                 <h2 class="text-3xl md:text-4xl font-bold leading-tight mb-4">Membangun Generasi Hebat.</h2>
-                <p class="text-indigo-100 leading-relaxed opacity-90">Platform terintegrasi untuk memantau perkembangan akademik dan karakter siswa secara real-time.</p>
+                <p class="text-emerald-100 leading-relaxed opacity-90">Platform terintegrasi untuk memantau perkembangan akademik dan karakter siswa secara real-time.</p>
             </div>
 
             <div class="mt-8 relative z-10 space-y-4">
                 <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-sm border border-white/10">
-                    <div class="bg-white text-indigo-600 p-2 rounded-lg">
+                    <div class="bg-white text-emerald-600 p-2 rounded-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     <div>
                         <p class="font-bold text-sm">Monitoring Kebiasaan</p>
-                        <p class="text-xs text-indigo-200">Pantau 7 kebiasaan baik setiap hari</p>
+                        <p class="text-xs text-emerald-200">Pantau 7 kebiasaan baik setiap hari</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-sm border border-white/10">
-                    <div class="bg-white text-indigo-600 p-2 rounded-lg">
+                    <div class="bg-white text-emerald-600 p-2 rounded-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                     </div>
                     <div>
                         <p class="font-bold text-sm">Komunikasi Mudah</p>
-                        <p class="text-xs text-indigo-200">Terhubung langsung dengan wali kelas</p>
+                        <p class="text-xs text-emerald-200">Terhubung langsung dengan wali kelas</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Side: Login Form -->
+        <!-- Right Side: Login Form (Green Accents) -->
         <div class="w-full md:w-7/12 p-8 md:p-12 lg:p-16 bg-white flex flex-col justify-center">
             <div class="max-w-md mx-auto w-full">
                 <div class="text-center md:text-left mb-10">
@@ -90,7 +90,7 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                             </div>
-                            <input type="email" name="email" class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-transparent transition-all text-slate-900 text-sm font-medium placeholder-slate-400" placeholder="nama@sekolah.id" required>
+                            <input type="email" name="email" class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:border-transparent transition-all text-slate-900 text-sm font-medium placeholder-slate-400" placeholder="nama@sekolah.id" required>
                         </div>
                     </div>
 
@@ -100,19 +100,19 @@
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
-                            <input type="password" name="password" class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:border-transparent transition-all text-slate-900 text-sm font-medium placeholder-slate-400" placeholder="••••••••" required>
+                            <input type="password" name="password" class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:border-transparent transition-all text-slate-900 text-sm font-medium placeholder-slate-400" placeholder="••••••••" required>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between">
                         <label class="flex items-center">
-                            <input type="checkbox" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                            <input type="checkbox" class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
                             <span class="ml-2 text-sm text-slate-500">Ingat saya</span>
                         </label>
-                        <a href="#" class="text-sm font-semibold text-indigo-600 hover:text-indigo-500">Lupa password?</a>
+                        <a href="#" class="text-sm font-semibold text-emerald-600 hover:text-emerald-500">Lupa password?</a>
                     </div>
 
-                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200 transition-all transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
                         <span>Masuk Sekarang</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>

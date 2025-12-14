@@ -3,13 +3,13 @@
     class="fixed inset-y-0 left-0 w-72 h-screen flex-shrink-0 flex flex-col transition-all duration-300 ease-in-out z-50 md:static bg-slate-900 text-white shadow-2xl overflow-hidden border-r border-slate-800"
     :class="{'translate-x-0': sidebarOpen, '-translate-x-full md:translate-x-0': !sidebarOpen}">
     
-    <!-- BRANDING AREA -->
+    <!-- BRANDING AREA (Updated to Green) -->
     <div class="relative z-10 h-24 flex items-center px-6 border-b border-white/5 bg-slate-900">
-        <div class="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
         <a href="{{ route('dashboard') }}" class="flex items-center gap-4 group w-full relative z-10">
             <div class="relative">
-                <div class="absolute inset-0 bg-indigo-500 blur-md opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
-                <div class="bg-gradient-to-br from-indigo-500 to-blue-600 p-2.5 rounded-xl shadow-lg relative z-10 group-hover:scale-105 transition-transform duration-300 border border-white/10">
+                <div class="absolute inset-0 bg-emerald-500 blur-md opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-2.5 rounded-xl shadow-lg relative z-10 group-hover:scale-105 transition-transform duration-300 border border-white/10">
                     <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
@@ -17,7 +17,7 @@
             </div>
             <div class="flex flex-col">
                 <span class="font-bold text-lg tracking-tight text-slate-100 font-['Plus_Jakarta_Sans']">SiKecil</span>
-                <span class="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Portal Sekolah</span>
+                <span class="text-[10px] text-emerald-400 font-medium tracking-wider uppercase">Sistem Informasi Kemajuan Edukasi & Capaian Individu Siswa</span>
             </div>
         </a>
     </div>
@@ -88,16 +88,16 @@
                         <a href="{{ route($item['route']) }}" 
                            class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group relative
                                   {{ $isActive 
-                                     ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/50' 
+                                     ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/50' 
                                      : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
                             
-                            <svg class="w-5 h-5 mr-3 {{ $isActive ? 'text-indigo-200' : 'text-slate-500 group-hover:text-indigo-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 mr-3 {{ $isActive ? 'text-emerald-200' : 'text-slate-500 group-hover:text-emerald-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"></path>
                             </svg>
                             <span class="text-sm font-medium">{{ $item['name'] }}</span>
                             
                             @if($isActive)
-                                <div class="absolute right-3 w-1.5 h-1.5 rounded-full bg-indigo-300 shadow-[0_0_8px_rgba(165,180,252,0.8)]"></div>
+                                <div class="absolute right-3 w-1.5 h-1.5 rounded-full bg-emerald-300 shadow-[0_0_8px_rgba(110,231,183,0.8)]"></div>
                             @endif
                         </a>
                     @endforeach
@@ -106,10 +106,10 @@
         @endforeach
     </div>
 
-    <!-- USER PROFILE FOOTER -->
+    <!-- USER PROFILE FOOTER (Updated to Green/Teal) -->
     <div class="p-4 border-t border-white/5 bg-slate-900/50 backdrop-blur-sm">
         <div class="flex items-center gap-3 mb-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-blue-500 flex items-center justify-center text-sm font-bold text-white shadow-inner ring-1 ring-white/10">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-sm font-bold text-white shadow-inner ring-1 ring-white/10">
                 {{ substr($user->name, 0, 1) }}
             </div>
             <div class="flex-1 min-w-0">
