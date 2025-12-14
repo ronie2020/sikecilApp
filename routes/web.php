@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/data-master/kelas/update/{id}', [DataMasterController::class, 'updateKelas'])->name('admin.updateKelas'); 
     Route::post('/data-master/kelas', [DataMasterController::class, 'storeKelas'])->name('admin.storeKelas');
     Route::post('/data-master/mapel', [DataMasterController::class, 'storeMapel'])->name('admin.storeMapel');
+    Route::post('/data-master/user/import', [App\Http\Controllers\DataMasterController::class, 'importUser'])->name('admin.importUser');
     Route::get('/data-master/delete/{type}/{id}', [DataMasterController::class, 'destroy'])->name('admin.delete');
 
     // Presensi

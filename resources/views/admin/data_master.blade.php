@@ -40,6 +40,14 @@
         this.editKelasOpen = true;
     },
 
+    // Modal Import (BARU)
+    importModalOpen: false,
+    importRole: 'guru', // 'guru' atau 'siswa'
+    openImport(role) {
+        this.importRole = role;
+        this.importModalOpen = true;
+    },
+
     // Fungsi Konfirmasi Hapus SweetAlert
     confirmDelete(url, message) {
         Swal.fire({
@@ -64,7 +72,7 @@
 
     <div class="flex-1 flex flex-col h-screen overflow-hidden">
         
-        <!-- Header dengan Search Bar Dummy -->
+        <!-- Header -->
         <header class="bg-white px-6 py-4 shadow-sm border-b border-slate-200 flex justify-between items-center z-20">
             <div>
                 <h1 class="text-xl font-extrabold text-slate-800 tracking-tight">📂 Data Master Sekolah</h1>
@@ -72,7 +80,6 @@
             </div>
             
             <div class="flex items-center gap-4">
-                <!-- Search Input Enhancement -->
                 <div class="hidden md:flex relative">
                     <input type="text" placeholder="Cari data..." class="pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 transition-all">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -106,7 +113,19 @@
             </script>
             @endif
 
-            <!-- TABS MENU (Improved Design - Now Blue) -->
+            @if(session('error'))
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: "{{ session('error') }}",
+                    });
+                });
+            </script>
+            @endif
+
+            <!-- TABS MENU -->
             <div class="flex space-x-1 mb-6 bg-white p-1.5 rounded-xl shadow-sm border border-slate-200 w-fit">
                 <button @click="activeTab = 'guru'" 
                     :class="activeTab === 'guru' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'" 
@@ -134,11 +153,18 @@
             <div x-show="activeTab === 'guru'" x-transition.opacity.duration.300ms class="space-y-6">
                 <!-- Form Input Card -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-5 border-b border-slate-100 pb-3">
-                        <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <div class="flex justify-between items-center mb-5 border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            </div>
+                            <h3 class="font-bold text-slate-800 text-lg">Tambah Guru Baru</h3>
                         </div>
-                        <h3 class="font-bold text-slate-800 text-lg">Tambah Guru Baru</h3>
+                        <!-- TOMBOL IMPORT GURU -->
+                        <button @click="openImport('guru')" class="text-sm flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 hover:bg-emerald-100 font-bold transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            Import CSV
+                        </button>
                     </div>
                     
                     <form action="{{ route('admin.storeUser') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -226,10 +252,18 @@
             <div x-show="activeTab === 'siswa'" x-transition.opacity.duration.300ms class="space-y-6" style="display: none;">
                 <!-- Form Input Siswa -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-600 p-1.5 rounded-lg"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></span>
-                        Tambah Siswa Baru
-                    </h3>
+                    <div class="flex justify-between items-center mb-5 border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-100 text-blue-600 p-1.5 rounded-lg"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></div>
+                            <h3 class="font-bold text-slate-800">Tambah Siswa Baru</h3>
+                        </div>
+                        <!-- TOMBOL IMPORT SISWA -->
+                        <button @click="openImport('siswa')" class="text-sm flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 hover:bg-emerald-100 font-bold transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            Import CSV
+                        </button>
+                    </div>
+
                     <form action="{{ route('admin.storeUser') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         @csrf
                         <input type="hidden" name="role" value="siswa">
@@ -275,7 +309,7 @@
                 </div>
             </div>
 
-            <!-- KONTEN TAB: KELAS -->
+            <!-- KONTEN TAB: KELAS (TETAP SAMA) -->
             <div x-show="activeTab === 'kelas'" x-transition.opacity.duration.300ms class="space-y-6" style="display: none;">
                 <div class="flex flex-col md:flex-row gap-6">
                     <div class="w-full md:w-1/3 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-fit sticky top-6">
@@ -324,7 +358,7 @@
                 </div>
             </div>
 
-            <!-- KONTEN TAB: MAPEL -->
+            <!-- KONTEN TAB: MAPEL (TETAP SAMA) -->
             <div x-show="activeTab === 'mapel'" class="space-y-6" style="display: none;">
                  <div class="flex flex-col md:flex-row gap-6">
                     <div class="w-full md:w-1/3 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-fit">
@@ -357,7 +391,51 @@
                 </div>
             </div>
 
-            <!-- MODAL EDIT USER (Now Blue) -->
+            <!-- MODAL IMPORT (BARU) -->
+            <div x-show="importModalOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <div x-show="importModalOpen" x-transition.opacity class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" aria-hidden="true" @click="importModalOpen = false"></div>
+                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                    <div x-show="importModalOpen" x-transition.scale class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                                <h3 class="text-lg leading-6 font-bold text-slate-900">📥 Import Data <span x-text="importRole == 'guru' ? 'Guru' : 'Siswa'"></span></h3>
+                                <button @click="importModalOpen = false" class="text-slate-400 hover:text-slate-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                            </div>
+
+                            <form action="{{ route('admin.importUser') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                @csrf
+                                <input type="hidden" name="role" x-model="importRole">
+                                
+                                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800">
+                                    <p class="font-bold mb-1">Panduan Format File (CSV):</p>
+                                    <ul class="list-disc list-inside space-y-1 text-xs">
+                                        <li>Gunakan format <strong>.csv (Comma delimited)</strong> dari Excel.</li>
+                                        <li>Baris pertama adalah <strong>Header</strong> (tidak akan diimport).</li>
+                                        <li>Urutan kolom wajib:</li>
+                                        <li x-show="importRole == 'guru'" class="font-mono bg-white p-1 rounded border border-blue-200 mt-1">Nama, NIP, Email, Password</li>
+                                        <li x-show="importRole == 'siswa'" class="font-mono bg-white p-1 rounded border border-blue-200 mt-1">Nama, NISN, Email, Password, Nama Kelas (Contoh: 7A)</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 text-xs font-bold uppercase mb-2">Pilih File CSV</label>
+                                    <input type="file" name="file" accept=".csv" class="w-full border p-2 rounded-xl focus:ring-blue-500 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required>
+                                </div>
+
+                                <div class="flex justify-end pt-4">
+                                    <button type="submit" class="w-full bg-emerald-600 text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-emerald-700 shadow-md flex justify-center items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                        Mulai Upload
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL EDIT USER (TETAP SAMA) -->
             <div x-show="editModalOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div x-show="editModalOpen" x-transition.opacity class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" aria-hidden="true" @click="editModalOpen = false"></div>
@@ -402,7 +480,7 @@
                 </div>
             </div>
 
-            <!-- MODAL EDIT KELAS (Now Blue) -->
+            <!-- MODAL EDIT KELAS (TETAP SAMA) -->
             <div x-show="editKelasOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div x-show="editKelasOpen" x-transition.opacity class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" aria-hidden="true" @click="editKelasOpen = false"></div>
