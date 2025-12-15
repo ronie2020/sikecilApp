@@ -22,16 +22,11 @@
         #print-area { display: none; }
 
         @media print {
-            /* 1. Reset Body */
             body { margin: 0; padding: 0; background: white; }
-            
-            /* 2. Sembunyikan SEMUA elemen aplikasi (Sidebar, Main, Modal, dll) */
             nav, .main-content, .fixed, header { display: none !important; }
-            
-            /* 3. Tampilkan HANYA area cetak */
             #print-area { 
                 display: flex !important; 
-                position: fixed; /* Paksa posisi */
+                position: fixed; 
                 top: 0; 
                 left: 0; 
                 width: 100vw;
@@ -42,14 +37,10 @@
                 z-index: 99999;
                 visibility: visible !important;
             }
-
-            /* 4. Paksa render warna background (PENTING untuk gradien hijau) */
             .force-print-bg {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            
-            /* 5. Hilangkan margin halaman bawaan browser */
             @page { margin: 0; size: auto; }
         }
     </style>
@@ -76,9 +67,6 @@
         this.qrModalOpen = true; 
     },
     printQr() {
-        // Trik: Tutup modal dulu sebentar agar fokus ke print area (opsional, tapi aman)
-        // window.print(); 
-        // Atau langsung print:
         setTimeout(() => window.print(), 100);
     },
     
@@ -94,7 +82,7 @@
     <!-- SIDEBAR -->
     @include('components.sidebar')
 
-    <!-- KONTEN UTAMA (Diberi class 'main-content' agar mudah disembunyikan saat print) -->
+    <!-- KONTEN UTAMA -->
     <div class="flex-1 flex flex-col h-screen overflow-hidden main-content">
         
         <header class="bg-white px-6 py-4 shadow-sm border-b border-slate-200 flex justify-between items-center z-20">
@@ -204,7 +192,8 @@
                             <tr><th class="p-4">Nama</th><th class="p-4">NISN</th><th class="p-4">Kelas</th><th class="p-4 text-center">QR Code</th><th class="p-4 text-center">Aksi</th></tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
-                            @foreach($siswa as $s)
+                            <!-- PERBAIKAN SORTING: Urutkan Nama -> lalu Urutkan Kelas -->
+                            @foreach($siswa->sortBy('name')->sortBy('kelas.nama_kelas') as $s)
                             <tr class="hover:bg-slate-50">
                                 <td class="p-4 font-bold text-slate-700">{{ $s->name }}</td>
                                 <td class="p-4 font-mono text-slate-600">{{ $s->nip_nis }}</td>
@@ -320,10 +309,9 @@
                 </div>
             </div>
 
-            <!-- MODAL QR CODE (Tampilan di Layar) -->
+            <!-- MODAL QR CODE & PRINT (Hidden but available via button) -->
             <div x-show="qrModalOpen" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/80 p-4" @click.self="qrModalOpen=false">
                 <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
-                    <!-- Preview Kartu -->
                     <div class="p-8 flex flex-col items-center justify-center relative bg-white">
                         <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-emerald-500 to-teal-600 z-0"></div>
                         <div class="relative z-10 bg-white p-2 rounded-2xl shadow-lg mb-4 mt-8">
@@ -348,32 +336,26 @@
     </div>
 
     <!-- AREA CETAK TERSEMBUNYI (Hanya Muncul Saat Print) -->
-    <!-- force-print-bg untuk memastikan warna tercetak -->
     <div id="print-area">
         <div class="flex flex-col items-center justify-center border-2 border-slate-200 rounded-3xl p-8 w-[350px] h-[550px] relative overflow-hidden bg-white shadow-none force-print-bg">
-            <!-- Background Decoration (Hijau) -->
             <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-emerald-500 to-teal-600 z-0 force-print-bg"></div>
             <div class="absolute bottom-0 right-0 w-40 h-40 bg-slate-50 rounded-full translate-x-10 translate-y-10 z-0 force-print-bg"></div>
             
-            <!-- Logo / Header -->
             <div class="relative z-10 mb-6 text-white text-center">
                 <h2 class="text-xl font-bold tracking-widest">KARTU PELAJAR</h2>
                 <p class="text-[10px] opacity-90 uppercase tracking-widest">SiKecil School System</p>
             </div>
 
-            <!-- QR Code -->
             <div class="relative z-10 bg-white p-2 rounded-2xl shadow-none border-4 border-white mb-6 force-print-bg">
                 <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + qrUser.id" class="w-48 h-48 rounded-lg">
             </div>
 
-            <!-- User Info -->
             <div class="relative z-10 text-center w-full">
                 <h1 class="text-2xl font-black text-slate-800 uppercase leading-tight mb-1" x-text="qrUser.name"></h1>
                 <p class="text-lg font-mono text-emerald-600 font-bold mb-3" x-text="qrUser.nis"></p>
                 <div class="inline-block border-2 border-slate-200 px-6 py-1.5 rounded-full text-sm font-bold text-slate-500 uppercase tracking-wide" x-text="'Kelas ' + qrUser.kelas"></div>
             </div>
 
-            <!-- Footer -->
             <div class="absolute bottom-6 w-full text-center">
                 <p class="text-[10px] text-slate-400 uppercase tracking-widest">Scan untuk Absensi</p>
             </div>

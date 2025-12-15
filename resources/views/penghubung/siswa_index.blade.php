@@ -63,12 +63,12 @@
                     </div>
                     <div>
                         <h1 class="font-bold text-slate-800 text-sm leading-tight">Wali Kelas</h1>
-                        <p class="text-[11px] text-emerald-600 font-medium">Online</p>
+                        <p class="text-[11px] text-emerald-600 font-medium animate-pulse">Online • Auto Sync</p>
                     </div>
                 </div>
             </div>
             
-            <button onclick="location.reload()" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></button>
+            <!-- Tombol reload dihapus karena sudah auto -->
         </header>
 
         <!-- NOTIFIKASI PESAN BARU -->
@@ -144,7 +144,43 @@
     </div>
 
     <script>
-        window.addEventListener('load', () => document.getElementById('scroll-anchor').scrollIntoView());
+        // Fungsi Auto Scroll
+        const scrollToBottom = () => {
+            const anchor = document.getElementById('scroll-anchor');
+            if(anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('load', scrollToBottom);
+
+        // --- SOLUSI AUTO RELOAD CHAT (POLLING) ---
+        let isScrolledToBottom = true;
+        const chatBox = document.getElementById('chat-container');
+
+        // Deteksi posisi scroll (agar tidak mengganggu saat membaca chat lama)
+        chatBox.addEventListener('scroll', () => {
+            const threshold = 100;
+            const position = chatBox.scrollTop + chatBox.clientHeight;
+            const height = chatBox.scrollHeight;
+            isScrolledToBottom = position > height - threshold;
+        });
+
+        // Polling setiap 3 detik
+        setInterval(() => {
+            fetch(window.location.href)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newChatContent = doc.getElementById('chat-container').innerHTML;
+
+                    chatBox.innerHTML = newChatContent;
+
+                    if (isScrolledToBottom) {
+                        scrollToBottom();
+                    }
+                })
+                .catch(err => console.error('Gagal sync chat:', err));
+        }, 3000);
     </script>
 </body>
 </html>

@@ -9,9 +9,23 @@ use App\Http\Controllers\JurnalGuruController;
 use App\Http\Controllers\BukuPenghubungController;
 use App\Http\Controllers\KebiasaanController;
 use App\Http\Controllers\DataMasterController;
+use App\Http\Controllers\EkskulController;
 
-// Redirect awal
-Route::get('/', function () { return redirect('/login'); });
+// PENTING: Tambahkan Import Model Ekskul di sini agar tidak error "Class not found"
+use App\Models\Ekskul; 
+
+// --- HALAMAN UTAMA (LANDING PAGE) YANG DIPERBAIKI ---
+Route::get('/', function () { 
+    // Ambil data ekskul dari database
+    $ekskuls = Ekskul::all(); 
+    
+    // Kirim variable $ekskuls ke view welcome
+    return view('welcome', compact('ekskuls')); 
+})->name('home');
+
+// === HALAMAN INFO EKSKUL (YANG BARU KITA BUAT) ===
+Route::get('/ekskul', [EkskulController::class, 'landingPage'])->name('ekskul');
+// ================================================
 
 // Halaman Login
 Route::get('/login', function () { return view('login'); })->name('login');
@@ -32,11 +46,21 @@ Route::post('/login-proses', function (Request $request) {
 })->name('login.process');
 
 
-// AREA USER LOGIN
+// AREA USER LOGIN (Sudah Login)
 Route::middleware('auth')->group(function () {
     
-    // DASHBOARD (Menggunakan Controller Baru)
+    // DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // === MANAJEMEN EKSKUL (ADMIN & GURU) ===
+    Route::prefix('admin')->name('admin.')->group(function() {
+        Route::get('/ekskul', [EkskulController::class, 'index'])->name('ekskul.index');
+        Route::post('/ekskul', [EkskulController::class, 'store'])->name('ekskul.store');
+        Route::delete('/ekskul/{id}', [EkskulController::class, 'destroy'])->name('ekskul.destroy');
+        
+        Route::get('/ekskul/{id}/presensi', [EkskulController::class, 'presensiView'])->name('ekskul.presensi');
+        Route::post('/ekskul/{id}/presensi', [EkskulController::class, 'presensiStore'])->name('ekskul.presensi.store');
+    });
 
     // Data Master Routes
     Route::prefix('data-master')->name('admin.')->group(function() {
@@ -76,6 +100,6 @@ Route::middleware('auth')->group(function () {
         Auth::logout(); 
         $request->session()->invalidate(); 
         $request->session()->regenerateToken(); 
-        return redirect('/login');
+        return redirect('/'); 
     })->name('logout');
 });

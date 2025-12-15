@@ -109,7 +109,10 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="location.reload()" class="text-slate-400 hover:text-emerald-600 transition-colors p-2 rounded-full hover:bg-emerald-50"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></button>
+                    <!-- Tombol reload manual dihapus/disembunyikan karena sudah auto -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] text-emerald-600 font-medium bg-emerald-50 px-2 py-1 rounded-full animate-pulse">Auto Sync</span>
+                    </div>
                 </header>
 
                 <!-- Box Pesan -->
@@ -172,10 +175,47 @@
     </div>
 
     <script>
-        window.addEventListener('load', () => {
+        // Fungsi Scroll ke Bawah
+        const scrollToBottom = () => {
             const anchor = document.getElementById('scroll-anchor');
-            if(anchor) anchor.scrollIntoView(); 
+            if(anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Scroll saat load pertama
+        window.addEventListener('load', scrollToBottom);
+
+        // --- SOLUSI AUTO RELOAD CHAT (POLLING) ---
+        let isScrolledToBottom = true;
+        const chatBox = document.getElementById('chat-box');
+
+        // Deteksi apakah user sedang scroll ke atas (supaya tidak dipaksa turun saat membaca chat lama)
+        chatBox.addEventListener('scroll', () => {
+            const threshold = 100; // toleransi piksel dari bawah
+            const position = chatBox.scrollTop + chatBox.clientHeight;
+            const height = chatBox.scrollHeight;
+            isScrolledToBottom = position > height - threshold;
         });
+
+        setInterval(() => {
+            // Fetch halaman ini lagi secara background
+            fetch(window.location.href)
+                .then(response => response.text())
+                .then(html => {
+                    // Ambil konten #chat-box dari response terbaru
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newChatContent = doc.getElementById('chat-box').innerHTML;
+
+                    // Update konten chat box saat ini
+                    chatBox.innerHTML = newChatContent;
+
+                    // Jika user tadi posisinya di bawah, auto scroll ke bawah lagi untuk lihat pesan baru
+                    if (isScrolledToBottom) {
+                        scrollToBottom();
+                    }
+                })
+                .catch(err => console.error('Gagal update chat:', err));
+        }, 3000); // Update setiap 3 detik
     </script>
 </body>
 </html>
